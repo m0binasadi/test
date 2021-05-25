@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pwm)1zh1jht^8nx=g!&xh*&^v7+x-qxvd1_sln@%+#w811n8y4'
+#SECRET_KEY = 'django-insecure-pwm)1zh1jht^8nx=g!&xh*&^v7+x-qxvd1_sln@%+#w811n8y4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,13 +75,22 @@ WSGI_APPLICATION = 'mob.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME':os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+}'''
+
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
 
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
